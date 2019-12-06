@@ -55,19 +55,10 @@ module RedmineEditauthor
       private
 
       def possible_authors(project)
-        if Settings.members_scope?
-          project.users.sorted
-        else
-          role_ids = Role.joins(:members)
-                       .where(members: { project_id: project.id })
-                       .distinct(:id)
-                       .pluck(:id, :permissions)
-                       .select { |_, perms| perms.include?(:add_issues) }
-                       .map(&:first)
-
+        if project.is_public
           User.active.sorted.joins(members: :roles).distinct(:id)
-            .where("#{MemberRole.table_name}.role_id IN (?) OR #{User.table_name}.admin = ?",
-                   role_ids, true)
+        else
+          project.users.sorted
         end
       end
 
