@@ -25,10 +25,8 @@ form.
 
 #### Possible authors
  
- By default users with global permissions such as administrators will be
- listed even if they are not participants of the project. It is possible to
- narrow possible authors to project members in plugin settings.
-
+All active users are listed for public projects.
+Only project members are listed for private projects.
 
 ## Requirements
 
